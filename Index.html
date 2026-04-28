@@ -1,1 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen Store</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f5f5f5;
+}
+
+/* Navbar */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111;
+color:white;
+padding:15px 50px;
+}
+
+nav h1{
+color:#00bcd4;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+gap:25px;
+}
+
+nav ul li{
+cursor:pointer;
+}
+
+/* Hero */
+
+.hero{
+height:60vh;
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url("https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+flex-direction:column;
+text-align:center;
+}
+
+.hero h2{
+font-size:45px;
+margin-bottom:10px;
+}
+
+.hero button{
+padding:12px 25px;
+border:none;
+background:#00bcd4;
+color:white;
+font-size:16px;
+cursor:pointer;
+border-radius:5px;
+}
+
+/* Products */
+
+.products{
+padding:40px;
+}
+
+.products h2{
+text-align:center;
+margin-bottom:30px;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+text-align:center;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.card h3{
+margin:10px 0;
+}
+
+.price{
+color:#00bcd4;
+font-weight:bold;
+}
+
+.card button{
+margin-top:10px;
+padding:10px 20px;
+border:none;
+background:#111;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* Footer */
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+
+<nav>
+<h1>NextGen Store</h1>
+
+<ul>
+<li>Home</li>
+<li>Products</li>
+<li>Categories</li>
+<li>Contact</li>
+</ul>
+
+</nav>
+
+
+<!-- Hero Section -->
+
+<section class="hero">
+
+<h2>Big Sale 50% Off</h2>
+<p>Best Products with Best Prices</p>
+<br>
+<button>Shop Now</button>
+
+</section>
+
+
+<!-- Products -->
+
+<section class="products">
+
+<h2>Featured Products</h2>
+
+<div class="product-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796">
+<h3>Running Shoes</h3>
+<p class="price">₹2999</p>
+<button>Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+<h3>Smart Watch</h3>
+<p class="price">₹4999</p>
+<button>Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
+<h3>Smart Phone</h3>
+<p class="price">₹15999</p>
+<button>Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad">
+<h3>Headphones</h3>
+<p class="price">₹1999</p>
+<button>Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
+<h3>Backpack</h3>
+<p class="price">₹1299</p>
+<button>Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97">
+<h3>Laptop</h3>
+<p class="price">₹45999</p>
+<button>Add to Cart</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- Footer -->
+
+<footer>
+
+<p>© 2026 NextGen Techsys | All Rights Reserved</p>
+
+</footer>
+
+
+</body>
+</html>
