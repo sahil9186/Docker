@@ -2,12 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DEV_SERVER = "13.126.231.48"
-        STG_SERVER = "13.126.75.43"
-        PRD_SERVER = "13.233.3.126"
-
-        IMAGE_NAME = "apache-demo"
-        CONTAINER_NAME = "apache-container"
+        DEV_SERVER = "65.2.131.51"
+        STG_SERVER = "3.108.228.60"
+        PRD_SERVER = "13.233.232.244"
     }
 
     stages {
@@ -20,7 +17,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build -t apache-demo .'
             }
         }
 
@@ -31,13 +28,11 @@ pipeline {
             steps {
                 sshagent(['ec2-ssh']) {
                     sh '''
-                    docker save $IMAGE_NAME | bzip2 | ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER 'bunzip2 | docker load'
-
-                    ssh ec2-user@$DEV_SERVER "
-                    docker stop $CONTAINER_NAME || true
-                    docker rm $CONTAINER_NAME || true
-                    docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME
-                    "
+                    ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER << EOF
+                    docker stop apache-demo || true
+                    docker rm apache-demo || true
+                    docker run -d -p 80:80 --name apache-demo apache-demo
+                    EOF
                     '''
                 }
             }
@@ -50,13 +45,11 @@ pipeline {
             steps {
                 sshagent(['ec2-ssh']) {
                     sh '''
-                    docker save $IMAGE_NAME | bzip2 | ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER 'bunzip2 | docker load'
-
-                    ssh ec2-user@$STG_SERVER "
-                    docker stop $CONTAINER_NAME || true
-                    docker rm $CONTAINER_NAME || true
-                    docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME
-                    "
+                    ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
+                    docker stop apache-demo || true
+                    docker rm apache-demo || true
+                    docker run -d -p 80:80 --name apache-demo apache-demo
+                    EOF
                     '''
                 }
             }
@@ -64,18 +57,16 @@ pipeline {
 
         stage('Deploy to PROD') {
             when {
-                branch 'main'
+                branch 'prd'
             }
             steps {
                 sshagent(['ec2-ssh']) {
                     sh '''
-                    docker save $IMAGE_NAME | bzip2 | ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER 'bunzip2 | docker load'
-
-                    ssh ec2-user@$PRD_SERVER "
-                    docker stop $CONTAINER_NAME || true
-                    docker rm $CONTAINER_NAME || true
-                    docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME
-                    "
+                    ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER << EOF
+                    docker stop apache-demo || true
+                    docker rm apache-demo || true
+                    docker run -d -p 80:80 --name apache-demo apache-demo
+                    EOF
                     '''
                 }
             }
@@ -84,10 +75,11 @@ pipeline {
 
     post {
         success {
-            echo "Deployment Successful"
+            echo 'Deployment Successful'
         }
+
         failure {
-            echo "Deployment Failed"
+            echo 'Deployment Failed'
         }
     }
 }
