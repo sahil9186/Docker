@@ -37,19 +37,24 @@ pipeline {
         }
 
         stage('Deploy to STG') {
-            when {
-                branch 'stg'
-            }
-            steps {
-                sh '''
-                ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
-                docker stop apache-demo || true
-                docker rm apache-demo || true
-                docker run -d -p 8081:8081 --name apache-demo apache-demo
-                EOF
-                '''
-            }
-        }
+    when {
+        branch 'stg'
+    }
+    steps {
+        sh '''
+        docker save apache-demo > apache-demo.tar
+
+        scp -o StrictHostKeyChecking=no apache-demo.tar ec2-user@$STG_SERVER:/home/ec2-user/
+
+        ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER "
+        docker stop apache-demo || true
+        docker rm apache-demo || true
+        docker load < apache-demo.tar
+        docker run -d -p 8081:80 --name apache-demo apache-demo
+        "
+        '''
+    }
+}
 
         stage('Deploy to PROD') {
             when {
