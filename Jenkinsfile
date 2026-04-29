@@ -45,7 +45,7 @@ pipeline {
                 ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
                 docker stop apache-demo || true
                 docker rm apache-demo || true
-                docker run -d -p 81:81 --name apache-demo apache-demo
+                docker run -d -p 8081:8081 --name apache-demo apache-demo
                 EOF
                 '''
             }
