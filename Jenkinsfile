@@ -26,15 +26,13 @@ pipeline {
                 branch 'dev'
             }
             steps {
-                sshagent(['ec2-ssh']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER << EOF
-                    docker stop apache-demo || true
-                    docker rm apache-demo || true
-                    docker run -d -p 80:80 --name apache-demo apache-demo
-                    EOF
-                    '''
-                }
+                sh '''
+                ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER << EOF
+                docker stop apache-demo || true
+                docker rm apache-demo || true
+                docker run -d -p 80:80 --name apache-demo apache-demo
+                EOF
+                '''
             }
         }
 
@@ -43,15 +41,13 @@ pipeline {
                 branch 'stg'
             }
             steps {
-                sshagent(['ec2-ssh']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
-                    docker stop apache-demo || true
-                    docker rm apache-demo || true
-                    docker run -d -p 80:80 --name apache-demo apache-demo
-                    EOF
-                    '''
-                }
+                sh '''
+                ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
+                docker stop apache-demo || true
+                docker rm apache-demo || true
+                docker run -d -p 80:80 --name apache-demo apache-demo
+                EOF
+                '''
             }
         }
 
@@ -60,15 +56,13 @@ pipeline {
                 branch 'prd'
             }
             steps {
-                sshagent(['ec2-ssh']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER << EOF
-                    docker stop apache-demo || true
-                    docker rm apache-demo || true
-                    docker run -d -p 80:80 --name apache-demo apache-demo
-                    EOF
-                    '''
-                }
+                sh '''
+                ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER << EOF
+                docker stop apache-demo || true
+                docker rm apache-demo || true
+                docker run -d -p 80:80 --name apache-demo apache-demo
+                EOF
+                '''
             }
         }
     }
