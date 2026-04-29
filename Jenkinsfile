@@ -15,24 +15,23 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t apache-demo .'
-            }
-        }
-
         stage('Deploy to DEV') {
             when {
                 branch 'dev'
             }
             steps {
-                sh '''
-                ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER << EOF
-                docker stop apache-demo || true
-                docker rm apache-demo || true
-                docker run -d -p 80:80 --name apache-demo apache-demo
-                EOF
-                '''
+                sh """
+ssh -o StrictHostKeyChecking=no ec2-user@$DEV_SERVER <<EOF
+cd /home/ec2-user
+rm -rf Docker
+git clone https://github.com/sahil9186/Docker.git
+cd Docker
+docker build -t apache-demo .
+docker stop apache-demo || true
+docker rm apache-demo || true
+docker run -d -p 80:80 --name apache-demo apache-demo
+EOF
+"""
             }
         }
 
@@ -41,13 +40,18 @@ pipeline {
                 branch 'stg'
             }
             steps {
-                sh '''
-                ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER << EOF
-                docker stop apache-demo || true
-                docker rm apache-demo || true
-                docker run -d -p 80:80 --name apache-demo apache-demo
-                EOF
-                '''
+                sh """
+ssh -o StrictHostKeyChecking=no ec2-user@$STG_SERVER <<EOF
+cd /home/ec2-user
+rm -rf Docker
+git clone https://github.com/sahil9186/Docker.git
+cd Docker
+docker build -t apache-demo .
+docker stop apache-demo || true
+docker rm apache-demo || true
+docker run -d -p 80:80 --name apache-demo apache-demo
+EOF
+"""
             }
         }
 
@@ -56,13 +60,18 @@ pipeline {
                 branch 'prd'
             }
             steps {
-                sh '''
-                ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER << EOF
-                docker stop apache-demo || true
-                docker rm apache-demo || true
-                docker run -d -p 80:80 --name apache-demo apache-demo
-                EOF
-                '''
+                sh """
+ssh -o StrictHostKeyChecking=no ec2-user@$PRD_SERVER <<EOF
+cd /home/ec2-user
+rm -rf Docker
+git clone https://github.com/sahil9186/Docker.git
+cd Docker
+docker build -t apache-demo .
+docker stop apache-demo || true
+docker rm apache-demo || true
+docker run -d -p 80:80 --name apache-demo apache-demo
+EOF
+"""
             }
         }
     }
@@ -71,7 +80,6 @@ pipeline {
         success {
             echo 'Deployment Successful'
         }
-
         failure {
             echo 'Deployment Failed'
         }
