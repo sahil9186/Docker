@@ -16,7 +16,7 @@ RUN rm -rf /var/www/html/*
 COPY Index.html /var/www/html/
 
 # Expose port
-EXPOSE 8081
+EXPOSE 80
 
 # Start Apache in foreground
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
