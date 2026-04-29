@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DEV_SERVER = "13.126.231.48"
-        STG_SERVER = "13.126.75.43"
-        PRD_SERVER = "13.233.3.126"
+        DEV_SERVER = "65.2.131.51"
+        STG_SERVER = "3.108.228.60"
+        PRD_SERVER = "13.233.232.244"
     }
 
     stages {
