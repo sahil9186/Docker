@@ -29,7 +29,7 @@ cd Docker
 docker build -t apache-demo .
 docker stop apache-demo || true
 docker rm apache-demo || true
-docker run -d -p 80:81 --name apache-demo apache-demo
+docker run -d -p 81:81 --name apache-demo apache-demo
 EOF
 """
             }
